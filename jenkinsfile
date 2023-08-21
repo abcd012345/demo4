@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Pull Content from Git') {
+            steps {
+                script {
+                    // Define the path to your destination folder
+                    def destinationFolder = "/path/to/destination-folder"
+                    
+                    // Delete the existing content in the destination folder
+                    sh "rm -rf ${destinationFolder}/*"
+                    
+                    // Clone the repository's 'develop' branch into the destination folder
+                    sh "git clone --branch develop --depth 1 https://your-git-repo-url.git ${destinationFolder}"
+                }
+            }
+        }
+    }
+}
