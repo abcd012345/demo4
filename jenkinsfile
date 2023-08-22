@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    
+    environment {
+        APP_DIR = "/var/www/myapp" // Change this to your app's directory
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                sh "cp -r dist/* $APP_DIR" // Deploy to the specified directory
+            }
+        }
+    }
+    
+    post {
+        always {
+            sh 'echo "Pipeline completed"'
+        }
+    }
+}
